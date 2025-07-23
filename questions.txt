@@ -1,0 +1,556 @@
+[easy] Which of the following practices improve code readability and adherence to coding standards in Python functions? (more than one correct answers)
+A. Adding type hints for parameters (e.g., def add(a: int, b: int))
+B. Specifying return types (e.g., def add(a: int, b: int) -> int)
+C. Including a docstring (triple quotes) at the start of a function to explain its purpose
+D. Using single-letter variable names (e.g., def f(x, y): return x + y)
+Answers:
+A, B, C
+Explanations:
+A. Type hints clarify the expected data types of parameters, making it easier for other developers (or future you) to understand how to use the function.
+B. Explicit return type annotations (e.g., -> int) communicate what the function outputs, reducing ambiguity.
+C. Docstrings (enclosed in """) document a function’s purpose, parameters, return values, and edge cases—critical for maintainability.
+D. incorrect: Single-letter variable names (like x, y, f) are vague and make code harder to read. Descriptive names (e.g., def add(num1: int, num2: int)) are better.
+Take-away: A readable code could not only let others understand your code, but also helps yourself! 
+  If you are lazy to keep the code readble, you may go crazy after seeing the code you wrote one year ago.
+
+
+[easy] What is the correct order for parameters in a function definition? 
+A. Default parameters first, then non-default parameters
+B. Non-default parameters first, then default parameters
+C. No order required
+D. Keyword parameters first, then positional parameters
+
+Answer: B. Non-default parameters first, then default parameters
+Explanation: In Python, non-default parameters must come before default parameters in function definitions. 
+This rule prevents ambiguity in function calls and ensures clear parameter binding.
+Think you have a function with parameters func(a=3, b=2, c), 
+then func(1, 3) could be intepreted as both a=1, c=3 (b=2 by default) or b=1, c=3 (a=3 by default), which is ambiguous
+
+
+[easy] What is the output of the following code?
+
+def swap1(a, b): c = a; a = b; b = c
+def swap2(pair): c = pair[0]; pair[0] = pair[1]; pair[1] = c
+
+a, b = 114, 514
+
+swap1(a, b)
+print(a, b)
+
+pair = [a, b]
+swap2(pair)
+print(a, b)
+print(*pair)
+
+A. 114 514 <new line> 114 514 <new line> 114 114
+B. 114 514 <new line> 114 514 <new line> 514 114
+C. 114 514 <new line> 514 114 <new line> 514 114
+D. 114 514 <new line> 514 114 <new line> 114 514
+
+answer: B
+Explanation:
+swap1(a, b): Integers are passed by value. Local changes don't affect original variables.
+swap2(pair): Lists are passed by reference. Changes to list elements affect the original list.
+After swap1: a, b remain 114, 514
+After swap2: pair becomes [514, 114], but a, b are still 114, 514
+
+Take-away: Understanding mutable vs immutable objects is crucial. 
+A common bug for beginners is expecting primitive types to be modified by functions.
+
+
+[easy] What is the value returned by this function?
+
+def func():
+    result = 0
+    for i in range(100): result += i
+
+A. 4950
+B. None
+C. 5050
+D. 0
+
+answer: B
+Explanation: The function doesn't have an explicit return statement, so it returns None by default. The result variable is calculated but never returned.
+Take-away: Always remember to return values from functions. Missing return statements are a common source of bugs.
+
+
+[easy] Identify the error in the following code that uses mixed positional and keyword arguments:
+
+def calculate(a, b, c):  
+    return a + b * c  
+
+print(calculate(2, c=3, 4))
+
+A. c=3 is an invalid keyword argument
+B. Positional argument 4 follows a keyword argument c=3
+C. The function is missing a return statement
+D. a, b, and c are not defined
+
+Answer: B. Positional argument 4 follows a keyword argument c=3
+Explanation: Once you use a keyword argument, all subsequent arguments must also be keyword arguments.
+
+
+[easy] What is the output of running test.py directly (not importing it), where test.py contains:
+
+print("Outside main")  
+if __name__ == "__main__":  
+    print("Inside main")  
+
+A. Only "Outside main"
+B. Only "Inside main"
+C. Both "Outside main" and "Inside main"
+D. No output
+
+Answer: C. Both "Outside main" and "Inside main"
+Explanation: When running a script directly, __name__ equals "__main__", so both print statements execute.
+Take-away: put testing codes of the module functions under 'if __name__ == "__main__"'.
+
+
+
+[easy] If you have a package shapes with a module circle.py containing a function area(), which statement imports area() correctly?
+A. from shapes.circle import area
+B. import shapes.area
+C. from shapes import circle.area
+D. import circle.area from shapes
+
+Answer: A. from shapes.circle import area
+Explanation: This imports the area function directly from the circle module in the shapes package.
+
+
+
+
+[medium] Which of the following correctly uses *args to accept variable positional arguments?
+
+A.
+def sum_all(*args):  
+    return sum(args)  
+print(sum_all(1, 2, 3, 4))  
+
+B.
+def sum_all(args*):  
+    return sum(args)  
+print(sum_all(1, 2, 3, 4))  
+
+C.
+def sum_all(**args):  
+    return sum(args)  
+print(sum_all(1, 2, 3, 4))  
+
+
+D.
+def sum_all(args):  
+    return sum(args)  
+print(sum_all(1, 2, 3, 4))  
+
+Answer: A
+Explanation: *args collects variable positional arguments into a tuple.
+
+Take-away:
+*args for variable positional arguments
+**kwargs for variable keyword arguments
+Useful for flexible function interfaces
+
+
+
+
+[medium] Can the code snippet below run without error? If yes, what will be the output?
+```python
+def foo(*args, **kwargs):
+    s = f'I got {sum(args)} candies, {kwargs["haha"]} haha and {kwargs["hehe"]} hehe.'
+    print(s)
+foo(5, 4, 3, haha=2, hehe=1)
+```
+
+Solution: Yes, and the output is: I got 12 candies, 2 haha and 1 hehe.
+
+
+
+
+
+[medium] Can the code snippet below run without error? If yes, what will be the output?
+```python
+def foo(*args):
+    for item in args:
+        item += item
+l, s = ['COMP1023'], 'Python'
+foo(l, s)
+print(l, s)
+```
+
+Solution: Yes, and the output is: ['COMP1023', 'COMP1023'] Python
+Note that string object is also immutable as parameters.
+
+
+
+
+[medium] Which of the following is a valid lambda function to add two numbers?
+- A. `add(x, y) = lambda: x + y`
+- B. `def add(x, y): return x + y`
+- C. `add = lambda x, y: x + y`
+- D. `add = lambda x, y: return x + y`
+
+Solution: C. add = lambda x, y: x + y
+
+
+
+
+[medium] Find the correct option to fill the blank in the program
+
+# input: 1 2 3 4 5 (seperated by spaces, not new line)
+
+nums = __________
+print(nums) # output: [1, 2, 3, 4, 5]
+
+A. [ int(input()) for _ in range(5) ]
+B. map(int, input())
+C. input().split()
+D. list(map(int, input().split()))
+
+
+Answer: D. list(map(int, input().split()))
+
+Explanation:
+input().split() creates ['1', '2', '3', '4', '5']
+map(int, <some list>) converts all element in the list to integers
+list() converts the map object to a list
+
+A is incorrect because call input() once would directly read the whole line
+
+
+
+[medium] What code should be put in the blank in the following code to output all multiples of 7 in the range [0, 999]? 
+
+result = filter(____, range(1000))
+
+A. x // 7 == 0
+B. lambda x: x % 7 == 0
+C. x % 7 == 0
+D. lambda x: x % 7
+
+Answer: B. lambda x: x % 7 == 0
+Explanation: filter() needs a function that returns True/False. The lambda checks if a number is divisible by 7.
+
+
+
+
+
+[medium] Alice has the above program:
+
+def func1(): ...
+def func2(): ...
+...
+def func8(): ...
+
+print('enter 1 ~ 8 to use the correspond function!')
+target = input()
+match target:
+    case '1': func1()
+    case '2': func2()
+    ...
+    case '8': func8()
+    case _: print('invalid!')
+
+But she thinks writing 8 cases clauses is too tiring! Can you help her think about a easier way to replace the match-case code block with one line of code?
+
+Answer:
+method 1: { '1': func1, '2': func2, '3': func3, '8': func8 }.get(target, lambda: print('Invalid!'))()
+method 2 (unsafe): eval(f"func{target}()") if '1' <= target <= '8' else print('Invalid!')
+
+Why Method 2 is Unsafe:
+    1. Input Validation Issues
+        If the user inputs non-numeric strings (e.g., 'abc'), the condition '1' <= target <= '8' may behave unexpectedly
+        The program could crash or produce undefined behavior
+    2. Code Injection Vulnerability
+        The eval() function executes arbitrary Python code, making it extremely dangerous
+        Attack Example: Try inputting "1() or print(__import__('os').listdir()) #" (the whole string from '1' to '#')
+        This malicious input will run the python code as blow:
+            func1() or print(__import__('os').listdir()) #()
+        which executes the function AND lists all files in the current directory
+        In a server environment, attackers could potentially read, modify, or delete critical files
+Take-away:
+Dictionary-based function dispatch provides clean, efficient code while maintaining security. The eval() function should be avoided with user input due to serious security vulnerabilities that can lead to code injection attacks.
+
+
+
+[hard] What is the output of the following code?
+
+def func(array = [0]):
+    array[0] += 1
+    print(array[0], end=' ')
+
+for _ in range(5): func()
+
+A. 0 0 0 0 0
+B. 0 1 2 3 4
+C. 1 2 3 4 5
+D. There is a syntax error
+
+Answer: C. 1 2 3 4 5
+Explanation: Mutable default arguments are shared between function calls. The same list [0] is reused each time.
+Take-away: Use None as default and create new objects inside the function:
+
+def func(array=None):
+    if array is None:
+        array = [0]
+    # rest of function
+
+
+[hard] What problem occurs for the following modules?
+
+user_management.py
+from user_validation import is_valid_age
+
+def create_user(name: str, age: int) -> dict:
+    """create a user, but check is the age valid before creation"""
+    if is_valid_age(age): 
+        return {"name": name, "age": age, "status": "valid"}  
+    else:  
+        return {"name": name, "age": age, "status": "invalid"}  
+
+def get_min_age() -> int:  
+    """return the minimum age that is valid"""  
+    return 18  
+
+user_validation.py
+from user_management import get_min_age
+
+def is_valid_age(age: int) -> bool:  
+    """check is the age valid"""  
+    min_age = get_min_age()
+    return age >= min_age  
+
+def validate_user(user: dict) -> str:  
+    """return is a user valid"""  
+    if user["status"] == "valid":  
+        return f"User {user['name']} is valid"  
+    else:  
+        return f"User {user['name']} is invalid (age too low)"  
+
+A. An import error would be caused because the two module imports each other
+B. Since the two imported functions do not call each other, they could be successfully imported without error.
+C. The modules overwrite each other’s functions
+D. No error, Python could handle circular imports automatically
+
+Answer: A. An import error would be caused because the two modules import each other
+
+Explanation: Circular imports create dependency loops that Python cannot resolve.
+
+
+
+
+[hard] What is the correct way to solve the problem in the last question? (more than one option is correct)
+A. Move the get_min_age() function to a third module (e.g., config.py) and import it into both user_management.py and user_validation.py.
+B. Move the import statement inside the functions that require them (e.g., move "from user_management import get_min_age" inside is_valid_age()).
+C. Put all functions in these two modules in a single module (e.g. user_functions.py)
+D. No action need to take because no errors are occured in the last question
+
+Answer: A, B, C are all correct
+
+Take-away:
+
+Option A: Best practice - create shared modules for common dependencies
+Option B: Lazy imports - import only when needed
+Option C: Sometimes appropriate for closely related functions
+Design modules with clear hierarchies to avoid circular dependencies
+
+
+
+[hard] Complete the following program:
+
+from functools import reduce
+
+scientists = [
+    {'name': 'Alan Turing', 'age': 105, 'gender': 'male'},
+    {'name': 'Dennis Ritchie', 'age': 76, 'gender': 'male'},
+    {'name': 'Ada Lovelace', 'age': 202, 'gender': 'female'},
+    {'name': 'Frances E. Allen', 'age': 84, 'gender': 'female'}
+]
+
+def group_by_gender(accumulator, value):
+
+    ################ write one line of code here ################
+
+    return accumulator
+
+grouped = reduce(group_by_gender, scientists, {'male': [], 'female': []})
+print(grouped)
+
+output: 
+{'male': ['Alan Turing', 'Dennis Ritchie'], 'female': ['Ada Lovelace', 'Frances E. Allen']}
+
+Answer:
+accumulator[value['gender']].append(value['name'])
+
+
+
+[hard] Design a function myprint() that behaves like the built-in print() function but with a call counter
+
+**Task:** Create a function `myprint()` that:
+1. Accepts the same arguments as the built-in `print()` function (*args, **kwargs)
+2. Before each output, prints the number of times it has been called previously
+3. Then prints the intended output normally
+
+**Example:**
+```python
+myprint("Hello, World!")
+myprint(10, 20, 30, sep=" + ")
+myprint("Python", "is", "fun", sep=" ", end="!\n")  
+myprint()
+```
+
+**Expected Output:**
+```
+0
+Hello, World!
+1
+10 + 20 + 30
+2
+Python is fun!
+3
+
+```
+
+**Explanation:**
+- First call: prints `0` (called 0 times before), then `Hello, World!`
+- Second call: prints `1` (called 1 time before), then `10 + 20 + 30`
+- Third call: prints `2` (called 2 times before), then `Python is fun!`
+- Fourth call: prints `3` (called 3 times before), then empty line
+
+**Hint:** You don't need to reimplement print(). Just "wrap" the existing print() function and add counter functionality.
+
+**Answer:**
+```python
+counter = 0
+
+def myprint(*args, **kwargs):
+    global counter
+    print(counter)
+    print(*args, **kwargs)
+    counter += 1
+```
+
+**Take-away:** This pattern of "wrapping" existing functions to add functionality is fundamental to decorators and aspect-oriented programming. It's commonly used for logging, timing, authentication, and other cross-cutting concerns.
+
+
+[insane] Higher-Order Functions and Decorators
+
+Functions can work on other functions or return functions as results. This is called "higher-order functions". Let's explore three levels:
+
+**Level 1: Functions that work ON functions**
+Write a function that takes another function and evaluates it over a range of values.
+
+Example:
+```python
+def function_values_lister(func, start, end):
+    return [func(i) for i in range(start, end + 1)]
+
+# Usage:
+def square(x): return x ** 2
+print(function_values_lister(square, 1, 5))  # Output: [1, 4, 9, 16, 25]
+```
+
+**Level 2: Functions that RETURN functions**
+Write a function factory that creates power functions.
+
+Example:
+```python
+def power_function_generator(n):
+    def power(x):
+        return x ** n
+    return power
+
+# Usage:
+square = power_function_generator(2)
+cube = power_function_generator(3)
+print(square(3), cube(3))  # Output: 9, 27
+```
+
+**Level 3: Functions that work ON functions AND RETURN functions (Decorators)**
+Create a decorator that adds a call counter to any function. (same logic as last problem)
+
+Template:
+```python
+counter_for_functions = {}
+
+def add_counter(target_function):
+    # when add_counter() is called, all the 'target_function' below will be replaced with the function you passed
+    counter_for_functions[target_function] = 0
+    
+    def wrapper(*args, **kwargs): 
+        # use a function wrap the target_function with some new features, just like "myprint" in the last question
+        print(counter_for_functions[target_function])
+        result = target_function(*args, **kwargs)
+        counter_for_functions[target_function] += 1
+        return result
+    
+    return wrapper
+
+# Usage:
+myprint = add_counter(print) 
+# It's like a rename of the function wrapped(*arg, **kwargs), where 'target_function' is replaced with 'print'
+
+myprint('hello!')  # Output: 0\n hello!
+myprint('world!')  # Output: 1\n world!
+```
+
+**Decorator Syntax:**
+Python provides special syntax for decorators:
+```python
+@add_counter
+def greet(): 
+    print('hello')
+
+# This is equivalent to:
+def greet(): 
+    print('hello')
+greet = add_counter(greet)
+```
+
+**Your Task:**
+Create a `@timer` decorator that measures and prints how long a function takes to execute.
+
+Requirements:
+- Use `time.time()` from the `time` module
+- Print execution time in format: "Time consumed: X.XXs"
+- Return the original function's result
+
+Example usage:
+```python
+@timer
+def slow_function():
+    total = 0
+    for i in range(100000000):
+        total += i
+    return total
+
+result = slow_function()  # Should print: "Time consumed: 2.34s"
+```
+
+**Bonus Question:** 
+List 3 other practical uses for decorators in real programming.
+
+Answer:
+```python
+import time
+
+def timer(target_function):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = target_function(*args, **kwargs)
+        end_time = time.time()
+        elapsed = end_time - start_time
+        print(f"Time consumed: {elapsed:.2f}s")
+        return result
+    return wrapper
+```
+
+**Other practical decorator uses:**
+1. **Logging** - Record function calls and parameters for debugging
+2. **Authentication** - Check user permissions before executing sensitive functions  
+3. **Caching/Memoization** - Store results of expensive computations to avoid recalculation
+4. **Rate Limiting** - Control how frequently functions can be called
+5. **Input Validation** - Verify function arguments meet requirements
+6. **Retry Logic** - Automatically retry operations that might fail
+
+**Take-away:** 
+Decorators enable clean separation of concerns - you can add cross-cutting functionality (timing, logging, security) without cluttering your core business logic. They're essential for writing maintainable, enterprise-level Python code.
